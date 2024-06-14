@@ -88,8 +88,8 @@ module.exports = class DataUploader {
                 else if (value === "無") value = 2;
                 break;
               case "dispatch_contract_working_classification":
-                if (value === "該当する") value = 1;
-                else if (value === "該当しない") value = 2;
+                if (value === "該当") value = 1;
+                else if (value === "非該当") value = 2;
                 break;
               case "sex":
                 if (value === "男") value = 1;
@@ -212,7 +212,10 @@ module.exports = class DataUploader {
             value = value.replaceAll("-", "");
             break;
           case "insert tel hyphen":
-            if (!value.includes("-")) {
+            if (value = "") {
+              value = "000-0000-0000"
+            }
+            else if (!value.includes("-")) {
               let formattedNumber =
                 value.substring(0, 3) +
                 "-" +
