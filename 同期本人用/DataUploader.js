@@ -1,3 +1,4 @@
+
 const KANACONVERTER_PATH = "./KanaConverter";
 const TRANSFER_LIST_PATH = "../templates/json/transfer_field_2.7.json";
 const OFFISTA_CLASS_PATH = "./Offista";
@@ -34,8 +35,10 @@ module.exports = class DataUploader {
         switch (type) {
           case undefined:
             break;
-          case "hyphen":
-              if (!value.includes("-")) {
+          case "insert_born_hyphen":
+              if (value === "") {
+              return value;  // 値が空欄だった場合、そのまま返す
+              } else if (!value.includes("-")) {
                 let formattedNumber =
                   value.substring(0, 4) +
                   "-" +
@@ -209,11 +212,18 @@ module.exports = class DataUploader {
             value = String(Number(value) / 1000);
             break;
           case "remove hyphen":
-            value = value.replaceAll("-", "");
-            break;
+            switch (dest) {
+              case "basic_pension_no":
+                value = value.replaceAll("-", "");
+                break;
+              case "insured_number_employ":
+                value = value.replaceAll("-", "");
+                break;
+            }
+
           case "insert tel hyphen":
-            if (value = "") {
-              value = "000-0000-0000"
+            if (value == "") {
+              return value;
             }
             else if (!value.includes("-")) {
               let formattedNumber =
